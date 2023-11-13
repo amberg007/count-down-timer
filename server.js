@@ -1,18 +1,51 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const fs = require('fs');
 const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-let countdownData = {
-  timeRemaining: 300, // Initial time in seconds
-  labelText: 'Countdown Timer',
-};
+const dataFilePath = path.join(__dirname, 'countdownData.json');
 
-// Serve static files from the 'public' directory
+let countdownData = loadCountdownData();
+
+function loadCountdownData() {
+  try {
+    const data = fs.readFileSync(dataFilePath, 'utf8');
+    const parsedData = JSON.parse(data);
+    console.log('Loaded countdown data:', parsedData);
+    return parsedData;
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      // File doesn't exist, create it with default data
+      fs.writeFileSync(dataFilePath, JSON.stringify({
+        timeRemaining: 300, // Initial time in seconds
+        labelText: 'Countdown Timer',
+      }, null, 2), 'utf8');
+      console.log('Countdown data file created.');
+      return {
+        timeRemaining: 300,
+        labelText: 'Countdown Timer',
+      };
+    } else {
+      console.error('Error loading countdown data:', error.message);
+    }
+  }
+
+  return {
+    timeRemaining: 300, // Default time in seconds
+    labelText: 'Countdown Timer',
+  };
+}
+
+function saveCountdownData() {
+  const dataToSave = JSON.stringify(countdownData, null, 2);
+  fs.writeFileSync(dataFilePath, dataToSave, 'utf8');
+}
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/display', (req, res) => {
@@ -31,9 +64,43 @@ io.on('connection', (socket) => {
   socket.on('update', (data) => {
     countdownData = data;
     io.emit('update', countdownData);
+    saveCountdownData(); // Save the updated data
   });
 });
 
-server.listen(3000, () => {
+function updateTimer() {
+  const isNegative = countdownData.timeRemaining < 0;
+
+  const absoluteTime = isNegative ? Math.abs(countdownData.timeRemaining) : countdownData.timeRemaining;
+
+  const hours = Math.floor(absoluteTime / 3600);
+  const minutes = Math.floor((absoluteTime % 3600) / 60);
+  const seconds = absoluteTime % 60;
+
+  const formattedHours = isNegative ? `-${hours < 10 ? '0' : ''}${hours}` : `${hours < 10 ? '0' : ''}${hours}`;
+  const formattedMinutes = `${minutes < 10 ? '0' : ''}${minutes}`;
+  const formattedSeconds = `${seconds < 10 ? '0' : ''}${seconds}`;
+
+  const displayTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
+  countdownData.timeRemaining--;
+  saveCountdownData(); // Save the updated data after each interval
+
+  if (isNegative && countdownData.timeRemaining < -10) {
+    clearInterval(timerInterval);
+    displayTime = '00:00:00';
+  }
+
+  io.emit('update', {
+    timeRemaining: countdownData.timeRemaining,
+    labelText: countdownData.labelText,
+  });
+}
+
+let timerInterval = setInterval(updateTimer, 1000);
+
+server.listen(3000, async () => {
   console.log('Server is running on http://localhost:3000');
+  const open = (await import('open')).default;
+  open('http://localhost:3000/display');
 });
