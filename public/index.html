@@ -1,88 +1,104 @@
-<!-- Display view -->
-<div id="display-view">
-  <h1 id="timer"></h1>
-  <p id="label"></p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
 
-<!-- Control view -->
-<div id="control-view">
-  <label for="timeInput">Time (HH:mm:ss): </label>
-  <input type="text" id="timeInput" placeholder="00:00:00">
-  <br>
-  <label for="labelInput">Label: </label>
-  <input type="text" id="labelInput" value="Countdown Timer">
-  <br>
-  <button onclick="updateTimer()">Update Timer</button>
-</div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
-<script>
-  const socket = io('http://localhost:3000');
-  const timerElement = document.getElementById('timer');
-  const labelElement = document.getElementById('label');
-  let timerInterval; // Declare the interval variable globally
-  let timeRemaining; // Declare timeRemaining globally
+<body>
 
-  socket.on('update', (data) => {
-    timeRemaining = data.timeRemaining;
-    updateDisplay(data);
-  });
+  <!-- Display view -->
+  <div id="display-view">
+    <h1 id="timer"></h1>
+    <p id="label"></p>
+  </div>
 
-  function updateDisplay(data) {
-    
+  <!-- Control view -->
+  <div id="control-view">
+    <label for="timeInput">Time (HH:mm:ss): </label>
+    <input type="text" id="timeInput" placeholder="00:00:00">
+    <br>
+    <label for="labelInput">Label: </label>
+    <input type="text" id="labelInput" value="Countdown Timer">
+    <br>
+    <button onclick="updateTimer()">Update Timer</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+  <script>
+    const socket = io('http://localhost:3000');
+    const timerElement = document.getElementById('timer');
+    const labelElement = document.getElementById('label');
+    let timerInterval; // Declare the interval variable globally
+    let timeRemaining; // Declare timeRemaining globally
+
+    socket.on('update', (data) => {
+      timeRemaining = data.timeRemaining;
+      updateDisplay(data);
+    });
+
+    function updateDisplay(data) {
+
+      function updateTimer() {
+        const isNegative = timeRemaining < 0;
+
+        const absTime = Math.abs(timeRemaining);
+        const hours = Math.floor(absTime / 3600);
+        const minutes = Math.floor((absTime % 3600) / 60);
+        const seconds = absTime % 60;
+
+        const formattedHours = isNegative ? `-${hours < 10 ? '0' : ''}${hours}` : `${hours < 10 ? '0' : ''}${hours}`;
+        const formattedMinutes = `${minutes < 10 ? '0' : ''}${minutes}`;
+        const formattedSeconds = `${seconds < 10 ? '0' : ''}${seconds}`;
+
+        const displayTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
+        timerElement.textContent = displayTime;
+        timeRemaining--;
+      }
+
+
+
+
+      // Initial update
+      updateTimer();
+
+      // Set up interval to update timer every second
+      clearInterval(timerInterval); // Clear existing interval before setting up a new one
+      timerInterval = setInterval(updateTimer, 1000);
+
+      // Update label
+      labelElement.textContent = data.labelText;
+    }
+
+    // Control view
     function updateTimer() {
-      const isNegative = timeRemaining < 0;
+      const timeInput = document.getElementById('timeInput').value;
+      const labelInput = document.getElementById('labelInput').value;
 
-      const absTime = Math.abs(timeRemaining);
-      const hours = Math.floor(absTime / 3600);
-      const minutes = Math.floor((absTime % 3600) / 60);
-      const seconds = absTime % 60;
+      // Regular expression to match the HH:mm:ss format
+      const timeFormatRegex = /^(?:[01]\d|2[0-3]):(?:[0-5]\d):(?:[0-5]\d)$/;
 
-      const formattedHours = isNegative ? `-${hours < 10 ? '0' : ''}${hours}` : `${hours < 10 ? '0' : ''}${hours}`;
-      const formattedMinutes = `${minutes < 10 ? '0' : ''}${minutes}`;
-      const formattedSeconds = `${seconds < 10 ? '0' : ''}${seconds}`;
+      if (!timeFormatRegex.test(timeInput)) {
+        alert('Please enter the time in the format HH:mm:ss. for example. 01:05:20');
+        return;
+      }
 
-      const displayTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+      const [hours, minutes, seconds] = timeInput.split(':').map(Number);
+      const totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
-      timerElement.textContent = displayTime;
-      timeRemaining--;
+      const newData = {
+        timeRemaining: totalSeconds,
+        labelText: labelInput,
+      };
+
+      socket.emit('update', newData);
     }
+  </script>
 
+</body>
 
-
-
-    // Initial update
-    updateTimer();
-
-    // Set up interval to update timer every second
-    clearInterval(timerInterval); // Clear existing interval before setting up a new one
-    timerInterval = setInterval(updateTimer, 1000);
-
-    // Update label
-    labelElement.textContent = data.labelText;
-  }
-
-  // Control view
-  function updateTimer() {
-    const timeInput = document.getElementById('timeInput').value;
-    const labelInput = document.getElementById('labelInput').value;
-
-    // Regular expression to match the HH:mm:ss format
-    const timeFormatRegex = /^(?:[01]\d|2[0-3]):(?:[0-5]\d):(?:[0-5]\d)$/;
-
-    if (!timeFormatRegex.test(timeInput)) {
-      alert('Please enter the time in the format HH:mm:ss. for example. 01:05:20');
-      return;
-    }
-
-    const [hours, minutes, seconds] = timeInput.split(':').map(Number);
-    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-
-    const newData = {
-      timeRemaining: totalSeconds,
-      labelText: labelInput,
-    };
-
-    socket.emit('update', newData);
-  }
-</script>
+</html>

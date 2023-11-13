@@ -116,6 +116,6 @@ let timerInterval = setInterval(updateTimer, 1000);
 
 server.listen(3000, async () => {
   console.log('Server is running on http://localhost:3000');
-  const open = (await import('open')).default;
-  open('http://localhost:3000/display');
+//   const open = (await import('open')).default;
+//   open('http://localhost:3000/display');
 });

@@ -1,0 +1,6 @@
+{
+    "ignore": ["countdownData.json"],
+    "events": {
+        "start": "browser-sync start --proxy 'localhost:3000' --files 'public/**/*.*' --no-open --no-notify"
+    }
+}  
