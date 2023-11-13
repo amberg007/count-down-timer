@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control View</title>
+</head>
+<body>
+  <div id="control-view">
+    <label for="timeInput">Time (HH:mm:ss): </label>
+    <input type="text" id="timeInput" placeholder="00:00:00">
+    <br>
+    <label for="labelInput">Label: </label>
+    <input type="text" id="labelInput" value="Countdown Timer">
+    <br>
+    <button onclick="updateTimer()">Update Timer</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+  <script>
+    const socket = io('http://localhost:3000');
+  
+    // Control view
+    function updateTimer() {
+      const timeInput = document.getElementById('timeInput').value;
+      const labelInput = document.getElementById('labelInput').value;
+  
+      // Regular expression to match the HH:mm:ss format
+      const timeFormatRegex = /^(?:[01]\d|2[0-3]):(?:[0-5]\d):(?:[0-5]\d)$/;
+  
+      if (!timeFormatRegex.test(timeInput)) {
+        alert('Please enter the time in the format HH:mm:ss. for example. 01:05:20');
+        return;
+      }
+  
+      const [hours, minutes, seconds] = timeInput.split(':').map(Number);
+      const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+  
+      const newData = {
+        timeRemaining: totalSeconds,
+        labelText: labelInput,
+      };
+  
+      socket.emit('update', newData);
+    }
+  </script>  
+</body>
+</html>
