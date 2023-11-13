@@ -4,16 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Control View</title>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="control-view">
-    <label for="timeInput">Time (HH:mm:ss): </label>
-    <input type="text" id="timeInput" placeholder="00:00:00">
-    <br>
+  <div id="control-view" class="container">
     <label for="labelInput">Label: </label>
-    <input type="text" id="labelInput" value="Countdown Timer">
+    <input type="text" id="labelInput" class="form-control"  value="Countdown Timer">
     <br>
-    <button onclick="updateTimer()">Update Timer</button>
+    
+    <label for="timeInput">Time (HH:mm:ss): </label>
+    <input type="text" id="timeInput" class="form-control" placeholder="00:00:00">
+    <br>
+    
+    <button class="btn btn-outline-primary" class="form-control"  onclick="updateTimer()">Update Timer</button>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>

@@ -1,11 +1,42 @@
 html {
-    background-color: grey;
+    background-color: #000000;
+}
+body {
+    height: 100vh;
+    display: flex;
+    background: #000000;
+}
+p, h1,label {
+    margin: 0   ;
 }
 
-#display-view {
+#display-view, #control-view {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    zoom: 3;
+}
+
+#control-view {
+    max-width: 300px;
+}
+
+#label {
+    color: green;
+    font-size: 40px;
+    text-transform: uppercase;
+}
+#timer {
+    color: green;
+    font-size: 80px;
+    text-transform: uppercase; 
+}
+
+/** Control Style **/
+label {
+    color: #ffffff;
+    font-size: 20px;
+    text-transform: uppercase;
 }
