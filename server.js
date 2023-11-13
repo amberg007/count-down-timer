@@ -69,33 +69,48 @@ io.on('connection', (socket) => {
 });
 
 function updateTimer() {
-  const isNegative = countdownData.timeRemaining < 0;
+    const isNegative = countdownData.timeRemaining < 0;
+  
+    const absoluteTime = isNegative ? Math.abs(countdownData.timeRemaining) : countdownData.timeRemaining;
+  
+    const hours = Math.floor(absoluteTime / 3600);
+    const minutes = Math.floor((absoluteTime % 3600) / 60);
+    const seconds = absoluteTime % 60;
+  
+    const formattedHours = isNegative ? `-${hours < 10 ? '0' : ''}${hours}` : `${hours < 10 ? '0' : ''}${hours}`;
+    const formattedMinutes = `${minutes < 10 ? '0' : ''}${minutes}`;
+    const formattedSeconds = `${seconds < 10 ? '0' : ''}${seconds}`;
+  
+    const updatedDisplayTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  
+    countdownData.timeRemaining--;
+  
 
-  const absoluteTime = isNegative ? Math.abs(countdownData.timeRemaining) : countdownData.timeRemaining;
-
-  const hours = Math.floor(absoluteTime / 3600);
-  const minutes = Math.floor((absoluteTime % 3600) / 60);
-  const seconds = absoluteTime % 60;
-
-  const formattedHours = isNegative ? `-${hours < 10 ? '0' : ''}${hours}` : `${hours < 10 ? '0' : ''}${hours}`;
-  const formattedMinutes = `${minutes < 10 ? '0' : ''}${minutes}`;
-  const formattedSeconds = `${seconds < 10 ? '0' : ''}${seconds}`;
-
-  const displayTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-
-  countdownData.timeRemaining--;
-  saveCountdownData(); // Save the updated data after each interval
-
-  if (isNegative && countdownData.timeRemaining < -10) {
-    clearInterval(timerInterval);
-    displayTime = '00:00:00';
+    /** this code stops further execution when timer reaches -10 */
+    if (isNegative && countdownData.timeRemaining < -600) {
+      clearInterval(timerInterval);
+      io.emit('update', {
+        timeRemaining: countdownData.timeRemaining,
+        labelText: countdownData.labelText,
+        displayTime: updatedDisplayTime,
+      });
+      return;
+    }
+  
+    // Open browser only once when the server starts
+    if (!isNegative && countdownData.timeRemaining === 299) {
+      openBrowserOnDisplay(1);
+    }
+  
+    saveCountdownData(); // Save the updated data after each interval
+  
+    io.emit('update', {
+      timeRemaining: countdownData.timeRemaining,
+      labelText: countdownData.labelText,
+      displayTime: updatedDisplayTime, // Use the updated display time
+    });
   }
-
-  io.emit('update', {
-    timeRemaining: countdownData.timeRemaining,
-    labelText: countdownData.labelText,
-  });
-}
+  
 
 let timerInterval = setInterval(updateTimer, 1000);
 
