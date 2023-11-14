@@ -99,7 +99,7 @@ function updateTimer() {
   
     // Open browser only once when the server starts
     if (!isNegative && countdownData.timeRemaining === 299) {
-      openBrowserOnDisplay(1);
+      // openBrowserOnDisplay(1);
     }
   
     saveCountdownData(); // Save the updated data after each interval

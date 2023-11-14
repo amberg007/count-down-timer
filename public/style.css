@@ -1,3 +1,5 @@
+@import url(./controls/button.css);
+
 html {
     background-color: #000000;
 }
@@ -16,7 +18,7 @@ p, h1,label {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    zoom: 3;
+    zoom: 1;
 }
 
 #control-view {
