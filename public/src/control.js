@@ -2,6 +2,12 @@
 
 const socket = io('http://localhost:3000');
 
+ // Add the mask to the time input
+$(document).ready(function(){
+  $('#timeInput').mask('00:00:00');
+});
+
+
 // Control view
 function updateTimer() {
   const timeInput = document.getElementById('timeInput').value;
