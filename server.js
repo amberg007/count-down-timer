@@ -7,6 +7,16 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+const os = require('os');
+
+// Get the network interfaces
+const networkInterfaces = os.networkInterfaces();
+
+// Extract the IP address
+const ipAddress = networkInterfaces['en1'][1].address; // Assuming 'eth0' is your network interface
+
+console.log('Server IP address:', ipAddress);
+
 
 const dataFilePath = path.join(__dirname, 'countdownData.json');
 
@@ -48,13 +58,17 @@ function saveCountdownData() {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.get('/display', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'display.html'));
+  const serverIp = process.env.SERVER_IP || 'localhost'; // Use the server IP from the environment variable or default to 'localhost'
+  res.sendFile(path.join(__dirname, 'public', 'display.html'), { serverIp });
 });
 
 app.get('/control', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'control.html'));
+  const serverIp = process.env.SERVER_IP || 'localhost'; // Use the server IP from the environment variable or default to 'localhost'
+  res.sendFile(path.join(__dirname, 'public', 'control.html'), { serverIp });
 });
+
 
 io.on('connection', (socket) => {
   // Send initial data to new connections
@@ -132,7 +146,8 @@ server.listen(3000, async () => {
   //   .then(data => console.log(data.displays))
   //   .catch(error => console.error(error));
 
-  console.log('Server is running on http://localhost:3000');
+  console.log(`Server is running on http://${ipAddress}:3000`);
   const open = (await import('open')).default;
-  open('http://localhost:3000/display');
+  open(`http://${ipAddress}:3000/display`);
 });
+

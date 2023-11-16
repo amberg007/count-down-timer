@@ -1,6 +1,7 @@
 // control.js
 
-const socket = io('http://localhost:3000');
+let ipAddress = "192.168.0.123";
+const socket = io(`http://${ipAddress}:3000`);
 
 // Add the mask to the time input
 $(document).ready(function () {
