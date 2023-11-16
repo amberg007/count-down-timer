@@ -3,10 +3,17 @@
 const socket = io('http://localhost:3000');
 const timerElement = document.getElementById('timer');
 const labelElement = document.getElementById('label');
+const displayElement = document.getElementById('display-view');
 let timerInterval; // Declare the interval variable globally
 
 socket.on('update', (data) => {
   updateDisplay(data);
+});
+
+
+// scale data subscription
+socket.on('updateScale', (data) => {
+  updateScaleOnDisplay(data);
 });
 
 function updateDisplay(data) {
@@ -46,4 +53,20 @@ function updateDisplay(data) {
 
   // Update label
   labelElement.textContent = data.labelText;
+}
+
+
+function updateScaleOnDisplay(data) {
+  console.log('data on scale: ', data);
+
+
+  // change the scale of the UI if scale value was sent
+  let displayScale = data.displayScale;
+
+  if (displayScale) {
+    console.log("display scale data: ", displayScale);
+
+    displayElement.style.scale = displayScale;
+  }
+
 }

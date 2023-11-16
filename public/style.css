@@ -3,16 +3,26 @@
 html {
     background-color: #000000;
 }
+
 body {
     height: 100vh;
     display: flex;
-    background: #000000;
-}
-p, h1,label {
-    margin: 0   ;
+    background: #040210;
 }
 
-#display-view, #control-view {
+p,
+h1,
+label {
+    margin: 0;
+    width: 10em;
+}
+
+input[type="text"] {
+    width: 12em;
+}
+
+#display-view,
+#control-view {
     display: flex;
     width: 100%;
     align-items: center;
@@ -21,19 +31,37 @@ p, h1,label {
     zoom: 1;
 }
 
-#control-view {
-    max-width: 300px;
+
+/** main control page view **/
+#control-view {}
+
+/** individual control item **/
+.control-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 30vw;
+    margin: 0.5em 0;
 }
 
 #label {
     color: green;
     font-size: 40px;
     text-transform: uppercase;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
 }
+
 #timer {
     color: green;
     font-size: 80px;
-    text-transform: uppercase; 
+    text-transform: uppercase;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
 }
 
 /** Control Style **/
