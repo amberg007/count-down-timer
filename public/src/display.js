@@ -7,11 +7,13 @@ const displayElement = document.getElementById('display-view');
 let timerInterval; // Declare the interval variable globally
 
 socket.on('update', (data) => {
-  if (!data.displayScale || data.displayScale === undefined) {
-    updateDisplay(data);
-  } else {
-    updateScaleOnDisplay(data);
-  }
+  updateDisplay(data);
+});
+
+// Handle updates from the control view
+socket.on('updateScale', (data) => {
+  // update scale
+  displayElement.style.scale = data.displayScale;
 });
 
 
@@ -38,12 +40,10 @@ function updateDisplay(data) {
     timeRemaining--;
 
     // You can customize this part based on your requirements
-    if (isNegative && timeRemaining < -600) {
+    if (isNegative && timeRemaining < -600000) {
       clearInterval(timerInterval);
       timerElement.textContent = '00:00:00';
     }
-
-    displayElement.style.scale = data.displayScale;
   }
 
   // Initial update
@@ -55,17 +55,7 @@ function updateDisplay(data) {
 
   // Update label
   labelElement.textContent = data.labelText;
-}
 
-
-function updateScaleOnDisplay(data) {
-  // change the scale of the UI if scale value was sent
-  let displayScale = data.displayScale;
-
-  if (displayScale) {
-    console.log("display scale data: ", displayScale);
-
-    displayElement.style.scale = displayScale;
-  }
-
+  // update scale
+  displayElement.style.scale = data.displayScale;
 }

@@ -9,9 +9,11 @@ $(document).ready(function () {
 
 
 // Control view
+/**
+ * Send all fields values to update the server
+ */
 function updateTimer() {
 
-  console.log("updat ebtn clicked on");
   const timeInput = document.getElementById('timeInput').value;
   const labelInput = document.getElementById('labelInput').value;
   const displayScaleInput = document.getElementById('displayScale').value;
@@ -29,12 +31,24 @@ function updateTimer() {
 
   const newData = {
     timeRemaining: totalSeconds,
-    labelText: labelInput
+    labelText: labelInput,
+    displayScale: displayScaleInput
   };
 
-  if (displayScaleInput) {
-    newData.displayScale = displayScaleInput;
-  }
-
   socket.emit('update', newData);
+}
+
+
+/**
+ * Send scale value to the server for broadcast
+ */
+function updateJustScale() {
+
+  const displayScaleInput = document.getElementById('displayScale').value;
+
+  const newData = {
+    displayScale: displayScaleInput
+  };
+
+  socket.emit('updateScale', newData);
 }

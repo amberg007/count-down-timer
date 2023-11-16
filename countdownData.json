@@ -1,4 +1,5 @@
 {
-  "timeRemaining": -600,
-  "labelText": "Countdown Timer"
+  "timeRemaining": -229,
+  "labelText": "Countdown Timer",
+  "displayScale": "2"
 }

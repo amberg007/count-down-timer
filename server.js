@@ -66,61 +66,71 @@ io.on('connection', (socket) => {
     io.emit('update', countdownData);
     saveCountdownData(); // Save the updated data
   });
+
+
+  // Handle scale updates from the control view
+  socket.on('updateScale', (data) => {
+    data = { ...data, "test": "hello" };
+    io.emit('updateScale', data);
+
+    // logging
+    console.log("recieved scale data: ", data)
+  });
 });
 
 function updateTimer() {
-    const isNegative = countdownData.timeRemaining < 0;
-  
-    const absoluteTime = isNegative ? Math.abs(countdownData.timeRemaining) : countdownData.timeRemaining;
-  
-    const hours = Math.floor(absoluteTime / 3600);
-    const minutes = Math.floor((absoluteTime % 3600) / 60);
-    const seconds = absoluteTime % 60;
-  
-    const formattedHours = isNegative ? `-${hours < 10 ? '0' : ''}${hours}` : `${hours < 10 ? '0' : ''}${hours}`;
-    const formattedMinutes = `${minutes < 10 ? '0' : ''}${minutes}`;
-    const formattedSeconds = `${seconds < 10 ? '0' : ''}${seconds}`;
-  
-    const updatedDisplayTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-  
-    countdownData.timeRemaining--;
-  
+  const isNegative = countdownData.timeRemaining < 0;
 
-    /** this code stops further execution when timer reaches -10 */
-    if (isNegative && countdownData.timeRemaining < -600) {
-      clearInterval(timerInterval);
-      io.emit('update', {
-        timeRemaining: countdownData.timeRemaining,
-        labelText: countdownData.labelText,
-        displayTime: updatedDisplayTime,
-      });
-      return;
-    }
-  
-    // Open browser only once when the server starts
-    if (!isNegative && countdownData.timeRemaining === 299) {
-      // openBrowserOnDisplay(1);
-    }
-  
-    saveCountdownData(); // Save the updated data after each interval
-  
+  const absoluteTime = isNegative ? Math.abs(countdownData.timeRemaining) : countdownData.timeRemaining;
+
+  const hours = Math.floor(absoluteTime / 3600);
+  const minutes = Math.floor((absoluteTime % 3600) / 60);
+  const seconds = absoluteTime % 60;
+
+  const formattedHours = isNegative ? `-${hours < 10 ? '0' : ''}${hours}` : `${hours < 10 ? '0' : ''}${hours}`;
+  const formattedMinutes = `${minutes < 10 ? '0' : ''}${minutes}`;
+  const formattedSeconds = `${seconds < 10 ? '0' : ''}${seconds}`;
+
+  const updatedDisplayTime = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
+  countdownData.timeRemaining--;
+
+
+  /** this code stops further execution when timer reaches -10 */
+  if (isNegative && countdownData.timeRemaining < -600) {
+    clearInterval(timerInterval);
     io.emit('update', {
       timeRemaining: countdownData.timeRemaining,
       labelText: countdownData.labelText,
-      displayTime: updatedDisplayTime, // Use the updated display time
+      displayTime: updatedDisplayTime,
     });
+    return;
   }
-  
+
+  // Open browser only once when the server starts
+  if (!isNegative && countdownData.timeRemaining === 299) {
+    // openBrowserOnDisplay(1);
+  }
+
+  saveCountdownData(); // Save the updated data after each interval
+
+  io.emit('update', {
+    timeRemaining: countdownData.timeRemaining,
+    labelText: countdownData.labelText,
+    displayTime: updatedDisplayTime, // Use the updated display time
+  });
+}
+
 
 let timerInterval = setInterval(updateTimer, 1000);
 
 server.listen(3000, async () => {
 
- // get system information
-//  const si = require('systeminformation');
-//  si.graphics()
-//   .then(data => console.log(data.displays))
-//   .catch(error => console.error(error));
+  // get system information
+  //  const si = require('systeminformation');
+  //  si.graphics()
+  //   .then(data => console.log(data.displays))
+  //   .catch(error => console.error(error));
 
   console.log('Server is running on http://localhost:3000');
   const open = (await import('open')).default;
