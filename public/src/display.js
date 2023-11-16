@@ -7,14 +7,14 @@ const displayElement = document.getElementById('display-view');
 let timerInterval; // Declare the interval variable globally
 
 socket.on('update', (data) => {
-  updateDisplay(data);
+  if (!data.displayScale || data.displayScale === undefined) {
+    updateDisplay(data);
+  } else {
+    updateScaleOnDisplay(data);
+  }
 });
 
 
-// scale data subscription
-socket.on('updateScale', (data) => {
-  updateScaleOnDisplay(data);
-});
 
 function updateDisplay(data) {
   let timeRemaining = data.timeRemaining;
@@ -42,6 +42,8 @@ function updateDisplay(data) {
       clearInterval(timerInterval);
       timerElement.textContent = '00:00:00';
     }
+
+    displayElement.style.scale = data.displayScale;
   }
 
   // Initial update
@@ -57,9 +59,6 @@ function updateDisplay(data) {
 
 
 function updateScaleOnDisplay(data) {
-  console.log('data on scale: ', data);
-
-
   // change the scale of the UI if scale value was sent
   let displayScale = data.displayScale;
 

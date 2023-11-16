@@ -10,6 +10,8 @@ $(document).ready(function () {
 
 // Control view
 function updateTimer() {
+
+  console.log("updat ebtn clicked on");
   const timeInput = document.getElementById('timeInput').value;
   const labelInput = document.getElementById('labelInput').value;
   const displayScaleInput = document.getElementById('displayScale').value;
@@ -27,21 +29,12 @@ function updateTimer() {
 
   const newData = {
     timeRemaining: totalSeconds,
-    labelText: labelInput,
-    displayScale: displayScaleInput
+    labelText: labelInput
   };
+
+  if (displayScaleInput) {
+    newData.displayScale = displayScaleInput;
+  }
 
   socket.emit('update', newData);
-}
-
-
-
-function updateScale() {
-  const displayScaleInput = document.getElementById('displayScale').value;
-
-  const newData = {
-    displayScale: displayScaleInput
-  };
-
-  socket.emit('updateScale', newData);
 }
