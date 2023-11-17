@@ -1,78 +1,34 @@
-@import url(./controls/button.css);
-
-html {
-    background-color: #000000;
-}
-
+html,
 body {
-    height: 100vh;
-    display: flex;
-    background: #040210;
-}
-
-p,
-h1,
-label {
+    height: 100%;
     margin: 0;
-    width: 10em;
+    background: rgb(2, 0, 36);
+    /* background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(149, 199, 20, 1) 0%, rgba(0, 212, 255, 1) 96%); */
+    background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgb(26 30 54) 0%, rgb(26 35 41) 96%)
 }
 
-input[type="text"] {
-    width: 12em;
+.myForm {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    padding: 15px !important;
+    border-radius: 15px !important;
+    color: white;
+
 }
 
-input[id="displayScale"],
-input[id="titleSize"],
-input[id="timerSize"] {
-    margin-bottom: 17px;
+input {
+    /* border-radius: 0 15px 15px 0 !important; */
+    background-color: #0d0f19a3 !important;
+    border: 1px solid #1a232b !important;
+    color: white !important;
 }
 
-#display-view,
-#control-view {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    zoom: 1;
+input:focus {
+    outline: none;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+
 }
 
-
-/** main control page view **/
-#control-view {}
-
-/** individual control item **/
-.control-item {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 30vw;
-    margin: 0.5em 0;
-}
-
-#label {
-    color: green;
-    font-size: 40px;
-    text-transform: uppercase;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-}
-
-#timer {
-    color: green;
-    font-size: 80px;
-    text-transform: uppercase;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-}
-
-/** Control Style **/
-label {
-    color: #ffffff;
-    font-size: 20px;
-    text-transform: uppercase;
+.br-15 {
+    border-radius: 15px 0 0 15px !important;
 }
