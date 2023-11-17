@@ -1,5 +1,5 @@
 // display.js
-let ipAddress = "192.168.0.123";
+let ipAddress = "localhost";
 
 const socket = io(`http://${ipAddress}:3000`);
 const timerElement = document.getElementById('timer');

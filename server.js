@@ -13,8 +13,7 @@ const os = require('os');
 const networkInterfaces = os.networkInterfaces();
 
 // Extract the IP address
-const ipAddress = networkInterfaces['en1'][1].address; // Assuming 'eth0' is your network interface
-
+const ipAddress = "localhost";
 console.log('Server IP address:', ipAddress);
 
 
