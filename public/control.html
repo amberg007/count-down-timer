@@ -50,10 +50,20 @@
     <div class="control-item">
       <div class="d-flex" style="margin-right: 1em;">
         <label for="displayScale">Display Scale: </label>
-        <input type="text" id="displayScale" class="form-control" placeholder="1" value="2">
+
+        <div class="d-flex flex-column">
+          <input type="text" id="displayScale" class="form-control" placeholder="1" value="2">
+
+          <input type="text" id="titleSize" class="form-control" placeholder="title size e.g 10" value="10">
+
+          <input type="text" id="timerSize" class="form-control" placeholder="Timer font. e.g 25" value="25">
+
+          <button class="btn btn-success btn-raised" onclick="updateJustScale()">Update</button>
+        </div>
+
       </div>
 
-      <button class="btn btn-success btn-raised" onclick="updateJustScale()">Update</button>
+
     </div>
 
     <div class="control-item">

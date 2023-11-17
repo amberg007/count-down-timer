@@ -21,6 +21,12 @@ input[type="text"] {
     width: 12em;
 }
 
+input[id="displayScale"],
+input[id="titleSize"],
+input[id="timerSize"] {
+    margin-bottom: 17px;
+}
+
 #display-view,
 #control-view {
     display: flex;

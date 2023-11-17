@@ -3,6 +3,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
@@ -13,7 +14,8 @@ const os = require('os');
 const networkInterfaces = os.networkInterfaces();
 
 // Extract the IP address
-const ipAddress = "localhost";
+const ipAddress = process.env.SERVER_IP || 'localhost';
+
 console.log('Server IP address:', ipAddress);
 
 
