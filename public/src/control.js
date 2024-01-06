@@ -13,15 +13,23 @@ $(document).ready(function () {
 
   document.getElementById('updateTimer').addEventListener('click', function () {
     const selectedUuid = document.getElementById('timerDropdown').value;
+    const selectElement = document.getElementById("timerDropdown");
+    const selectedText = selectElement.options[selectElement.selectedIndex].text;
     const timeString = document.getElementById('timeInput').value;
     const durationInSeconds = convertTimeToSeconds(timeString);
 
     if (selectedUuid && durationInSeconds !== null) {
-      updateTimer(selectedUuid, durationInSeconds);
+      updateTimer(selectedUuid, durationInSeconds, selectedText);
     } else {
       console.error('Invalid input. Please ensure a timer is selected and time is correctly entered.');
     }
   });
+
+  setTimeout(() => {
+    // fetchCurrentTimer();
+    setInterval(fetchCurrentTimer, 1000);
+  }, 2000);
+  
 });
 
 
@@ -52,11 +60,12 @@ function populateDropdown(data) {
   });
 }
 
-function updateTimer(uuid, duration) {
+function updateTimer(uuid, duration, selectedText) {
   const url = `http://192.168.0.123:1025/v1/timer/${uuid}`;
   const data = {
     id: {
-      uuid: uuid
+      uuid: uuid,
+      name: selectedText
     },
     allows_overrun: true,
     countdown: {
@@ -82,6 +91,14 @@ function updateTimer(uuid, duration) {
 
       // startTimer();
 
+      setTimeout(() => {
+        resetTimer();
+
+        setTimeout(() => {
+          startTimer();
+        }, 300);
+      }, 300);
+
     })
     .catch(error => {
       console.error('Error updating timer:', error);
@@ -101,6 +118,39 @@ function convertTimeToSeconds(timeString) {
 }
 
 /////////////
+
+function findObjectByUuid(dataArray, uuid) {
+  return dataArray.find(item => item.id.uuid === uuid);
+}
+
+function fetchCurrentTimer() {
+  const uuid = document.getElementById("timerDropdown").value;
+  fetch(`http://${server}/v1/timers/current?chunked=false`) // Replace with your actual API endpoint
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(data => {
+          
+
+          const jsonData = data;
+          const foundObject = findObjectByUuid(jsonData, uuid);
+
+          console.log('Current timer data:', foundObject);
+          
+          // Set the value to the input element
+          document.getElementById('timerDisplay').textContent  = foundObject.time;
+
+          // Process the data as needed
+      })
+      .catch(error => {
+          console.error('Error fetching current timer:', error);
+      });
+}
+
+
 
 
 function resetTimer() {

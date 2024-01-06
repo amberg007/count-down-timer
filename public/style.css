@@ -223,3 +223,6 @@ img.logo {
     width: 6%;
     margin-right: 10px;
 }
+#timerDisplay {
+    font-size: 2em;;
+}
