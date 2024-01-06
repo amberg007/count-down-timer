@@ -3,7 +3,6 @@
 let server = "192.168.0.123:1025";
 
 // let ipAddress = "localhost";
-// const socket = io(`http://${ipAddress}:3000`);
 
 // Add the mask to the time input
 $(document).ready(function () {
@@ -122,7 +121,7 @@ function stopTimer() {
 function timerOperation(action) {
   const uuid = document.getElementById('timerDropdown').value;
 
-  const url = `http://192.168.0.123:1025/v1/timer/${uuid}/${action}`;
+  const url = `http://${server}/v1/timer/${uuid}/${action}`;
 
   fetch(url)
     .then(response => {
