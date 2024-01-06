@@ -148,7 +148,7 @@ server.listen(3000, async () => {
   //   .catch(error => console.error(error));
 
   console.log(`Server is running on http://${ipAddress}:3000`);
-  const open = (await import('open')).default;
-  open(`http://${ipAddress}:3000/display`);
+  // const open = (await import('open')).default;
+  // open(`http://${ipAddress}:3000/display`);
 });
 

@@ -19,62 +19,74 @@
 <!-- Coded With Love By Mutiullah Samim-->
 
 <body>
-  <dvi class="container h-100">
+  <div class="container h-100">
     <div class="d-flex justify-content-center">
-      <div class="card mt-5 col-md-4 animated bounceInDown myForm">
-        <div class="card-header">
-          <h4>Stage Controller</h4>
+      <div class="card mt-5 col-auto animated bounceInDown myForm" style="zoom: 2;">
+        <div class="card-header d-flex flex-row align-items-center justify-content-start">
+          <img src="/assets/apple-touch-icon.png" class="logo">
+          <h4>Unstoppable Generation - Stage Controller</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body pt-0">
           <form>
             <div id="dynamic_container">
-              <div class="input-group align-items-center justify-content-center mr-5">
-                <label class="w-50" for="labelInput">Countdown Timer</label>
+              <!-- <div class="input-group align-items-center justify-content-center mr-5">
+                <label class="w-50" for="labelInput">Stage Timer</label>
                 <input type="text" id="labelInput" class="form-control" value="Countdown Timer">
+              </div> -->
+
+              <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+                <label class="w-50" for="labelInput">Selected Timer</label>
+                <select id="timerDropdown" class="form-control"></select>
               </div>
+
+
+
               <div class="input-group align-items-center justify-content-center mr-5 mt-3">
                 <label class="w-50" for="timeInput">Time Input</label>
-                <input type="text" id="timeInput" class="form-control" placeholder="00:00:00" value="00:00:40">
+                <input type="text" id="timeInput" class="form-control" placeholder="00:00" value="20:40">
               </div>
 
 
-              <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+              <!-- <div class="input-group align-items-center justify-content-center mr-5 mt-3">
                 <label class="w-50" for="displayScale">Display Scale</label>
                 <input type="text" id="displayScale" class="form-control" placeholder="1" value="2">
-              </div>
+              </div> -->
 
 
 
-              <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+              <!-- <div class="input-group align-items-center justify-content-center mr-5 mt-3">
                 <label class="w-50" for="titleSize">Title Size</label>
                 <input type="text" id="titleSize" class="form-control" placeholder="title size e.g 10" value="10">
-              </div>
+              </div> -->
 
 
 
-              <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+              <!-- <div class="input-group align-items-center justify-content-center mr-5 mt-3">
                 <label class="w-50" for="timerSize">Timer Size</label>
                 <input type="text" id="timerSize" class="form-control" placeholder="Timer font. e.g 25" value="25">
-              </div>
+              </div> -->
 
 
             </div>
           </form>
         </div>
-        <div class="card-footer">
+        <div class="card-footer m-auto">
 
-          <button class="btn btn-success btn-raised" onclick="updateJustScale()">Update</button>
+          <button class="btn btn-success btn-raised" id="updateTimer">Update Timer</button>
 
-          <button class="btn btn-success btn-raised" onclick="updateTimer()">Update All</button>
+          <button class="btn btn-warning btn-raised" onclick="resetTimer()">Reset Timer</button>
 
+          <button class="btn btn-info btn-raised" onclick="startTimer()">Start Timer</button>
+
+          <button class="btn btn-danger btn-raised" onclick="stopTimer()">Stop Timer</button>
 
         </div>
       </div>
     </div>
-    </div>
+  </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
-    <script src="src/control.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+  <script src="src/control.js"></script>
 </body>
 
 </html>
