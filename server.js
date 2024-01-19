@@ -24,6 +24,9 @@ const dataFilePath = path.join(__dirname, 'countdownData.json');
 let countdownData = loadCountdownData();
 
 function loadCountdownData() {
+
+  /**
+   * 
   try {
     const data = fs.readFileSync(dataFilePath, 'utf8');
     const parsedData = JSON.parse(data);
@@ -45,6 +48,8 @@ function loadCountdownData() {
       console.error('Error loading countdown data:', error.message);
     }
   }
+
+   */
 
   return {
     timeRemaining: 300, // Default time in seconds
@@ -79,7 +84,8 @@ io.on('connection', (socket) => {
   socket.on('update', (data) => {
     countdownData = data;
     io.emit('update', countdownData);
-    saveCountdownData(); // Save the updated data
+
+    // saveCountdownData(); // Save the updated data
   });
 
 
