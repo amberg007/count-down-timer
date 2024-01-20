@@ -49,7 +49,6 @@ const initializeUpdateTimerBtn = () => {
 
   // event handler for when "Send Message" button is clicked on
   document.getElementById('sendMessage').addEventListener('click', function () {
-
     const messageInput = document.getElementById('messageInput').value;
 
     if (messageInput && messageInput !== null) {
@@ -60,7 +59,7 @@ const initializeUpdateTimerBtn = () => {
   });
 
 
-  
+
 }
 
 
@@ -121,13 +120,13 @@ function updateTimer(uuid, duration, selectedText) {
 
       // startTimer();
 
-      setTimeout(() => {
-        resetTimer();
+      // setTimeout(() => {
+      //   resetTimer();
 
-        setTimeout(() => {
-          startTimer();
-        }, 300);
-      }, 300);
+      //   setTimeout(() => {
+      //     startTimer();
+      //   }, 300);
+      // }, 300);
 
     })
     .catch(error => {
@@ -139,27 +138,28 @@ function updateTimer(uuid, duration, selectedText) {
 function sendMessage(message) {
   const url = `http://${server}/v1/stage/message`;
 
-
   fetch(url, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json', // Specify the content type
     },
-    body: `${message}`
+    body: JSON.stringify(message) // Send the message directly as a JSON string
   })
     .then(response => {
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error(`Network response was not ok (${response.status} ${response.statusText})`);
       }
       return response.json();
     })
     .then(data => {
-      console.log('message sent successfully:', data);
+      console.log('Message sent successfully:', data);
     })
     .catch(error => {
       console.error('Error sending message:', error);
     });
 }
+
+
 
 function convertTimeToSeconds(timeString) {
   const parts = timeString.split(':');
