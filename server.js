@@ -10,6 +10,8 @@ const server = http.createServer(app);
 const io = socketIo(server);
 const os = require('os');
 
+const nmap = require('node-nmap');
+
 // Get the network interfaces
 const networkInterfaces = os.networkInterfaces();
 

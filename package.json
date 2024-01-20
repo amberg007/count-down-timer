@@ -13,6 +13,7 @@
     "bootstrap": "^5.3.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "node-nmap": "^4.0.0",
     "open": "^9.1.0",
     "socket.io": "^4.7.2",
     "systeminformation": "^5.21.17"

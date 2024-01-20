@@ -1,6 +1,6 @@
 // control.js
 
-let server = "192.168.0.123:1025";
+let server = "192.168.0.126:1025";
 
 // let ipAddress = "localhost";
 
@@ -10,7 +10,28 @@ $(document).ready(function () {
 
   getAllTimers();
 
+  initializeActivePresenterServer();
 
+  initializeUpdateTimerBtn();
+
+
+
+  setTimeout(() => {
+    // fetchCurrentTimer();
+    setInterval(fetchCurrentTimer, 1000);
+  }, 2000);
+
+});
+
+
+const initializeActivePresenterServer = () => {
+  // get all clients in the same local network
+  // load the clients in a drop down
+}
+
+
+const initializeUpdateTimerBtn = () => {
+  // event handler for when "Update Timer" button is clicked on
   document.getElementById('updateTimer').addEventListener('click', function () {
     const selectedUuid = document.getElementById('timerDropdown').value;
     const selectElement = document.getElementById("timerDropdown");
@@ -24,14 +45,7 @@ $(document).ready(function () {
       console.error('Invalid input. Please ensure a timer is selected and time is correctly entered.');
     }
   });
-
-  setTimeout(() => {
-    // fetchCurrentTimer();
-    setInterval(fetchCurrentTimer, 1000);
-  }, 2000);
-  
-});
-
+}
 
 
 /**
@@ -126,28 +140,28 @@ function findObjectByUuid(dataArray, uuid) {
 function fetchCurrentTimer() {
   const uuid = document.getElementById("timerDropdown").value;
   fetch(`http://${server}/v1/timers/current?chunked=false`) // Replace with your actual API endpoint
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          return response.json();
-      })
-      .then(data => {
-          
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
 
-          const jsonData = data;
-          const foundObject = findObjectByUuid(jsonData, uuid);
 
-          console.log('Current timer data:', foundObject);
-          
-          // Set the value to the input element
-          document.getElementById('timerDisplay').textContent  = foundObject.time;
+      const jsonData = data;
+      const foundObject = findObjectByUuid(jsonData, uuid);
 
-          // Process the data as needed
-      })
-      .catch(error => {
-          console.error('Error fetching current timer:', error);
-      });
+      console.log('Current timer data:', foundObject);
+
+      // Set the value to the input element
+      document.getElementById('timerDisplay').textContent = foundObject.time;
+
+      // Process the data as needed
+    })
+    .catch(error => {
+      console.error('Error fetching current timer:', error);
+    });
 }
 
 
