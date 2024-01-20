@@ -226,3 +226,7 @@ img.logo {
 #timerDisplay {
     font-size: 2em;;
 }
+#sendMessage { 
+    display: flex;
+    align-items: center;
+}

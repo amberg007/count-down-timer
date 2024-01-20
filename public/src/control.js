@@ -1,6 +1,6 @@
 // control.js
 
-let server = "192.168.0.126:1025";
+let server = "192.168.70.165:1025";
 
 // let ipAddress = "localhost";
 
@@ -45,6 +45,22 @@ const initializeUpdateTimerBtn = () => {
       console.error('Invalid input. Please ensure a timer is selected and time is correctly entered.');
     }
   });
+
+
+  // event handler for when "Send Message" button is clicked on
+  document.getElementById('sendMessage').addEventListener('click', function () {
+
+    const messageInput = document.getElementById('messageInput').value;
+
+    if (messageInput && messageInput !== null) {
+      sendMessage(messageInput);
+    } else {
+      console.error('Invalid input. Please enter a message to send to stage.');
+    }
+  });
+
+
+  
 }
 
 
@@ -75,7 +91,7 @@ function populateDropdown(data) {
 }
 
 function updateTimer(uuid, duration, selectedText) {
-  const url = `http://192.168.0.123:1025/v1/timer/${uuid}`;
+  const url = `http://${server}/v1/timer/${uuid}`;
   const data = {
     id: {
       uuid: uuid,
@@ -116,6 +132,32 @@ function updateTimer(uuid, duration, selectedText) {
     })
     .catch(error => {
       console.error('Error updating timer:', error);
+    });
+}
+
+
+function sendMessage(message) {
+  const url = `http://${server}/v1/stage/message`;
+
+
+  fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: `${message}`
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('message sent successfully:', data);
+    })
+    .catch(error => {
+      console.error('Error sending message:', error);
     });
 }
 
