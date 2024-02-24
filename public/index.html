@@ -1,15 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Countdown Timer</title>
+  <title>Control</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="manifest" href="assets/site.webmanifest">
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<!-- Coded With Love By Mutiullah Samim-->
 
+<body>
+  <div class="container h-100">
+    <div class="d-flex justify-content-center">
+      <div class="card mt-5 col-auto animated bounceInDown myForm" style="zoom: 2;">
+        <div class="card-header d-flex flex-row align-items-center justify-content-between w-100">
+          <img src="/assets/apple-touch-icon.png" class="logo">
+          <h4>UGYC - Stage Controller</h4>
+          <h5 id="timerDisplay">00:00</h5>
+        </div>
+        <div class="card-body pt-0">
+          <form>
+            <div id="dynamic_container">
+              <!-- <div class="input-group align-items-center justify-content-center mr-5">
+                <label class="w-50" for="labelInput">Stage Timer</label>
+                <input type="text" id="labelInput" class="form-control" value="Countdown Timer">
+              </div> -->
+
+              <!-- Active Server -->
+              <!--
+              <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+                <label class="w-50" for="labelInput">Active Presenter Server</label>
+                <select id="activePresenterServer" class="form-control"></select>
+              </div>
+              -->
+
+              <!--
+              <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+                <label class="w-50" for="labelInput">Active Presenter Server</label>
+                <input type="text" id="activePresenterServer" class="form-control" placeholder="192.168.0.0:1025"
+                  value="192.168.0.123:1025">
+              </div>
+              -->
+
+
+              <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+                <label class="w-50" for="labelInput">Selected Timer</label>
+                <select id="timerDropdown" class="form-control"></select>
+              </div>
+
+
+
+              <div class="d-flex flex-row input-group align-items-center justify-content-between mt-3 w-100">
+                <label for="timeInput">Time Input</label>
+                <div class="d-flex">
+                  <input type="text" id="timeInput" class="form-control mr-1" placeholder="00:00" value="20:40">
+                  <div class="btn btn-success btn-raised" id="updateTimer">Update Timer</div>
+                </div>
+              </div>
+
+
+
+              <div class="d-flex flex-row input-group align-items-start justify-content-between mt-3 w-100">
+                <label for="messageInput" class="mr-2">Messages</label>
+                <div class="d-flex">
+                  <textarea id="messageInput" name="messageInput" rows="3" cols="50" class="form-control mr-1"
+                    placeholder="type message here"></textarea>
+                  <div class="btn btn-success btn-raised" id="sendMessage">Send Message</div>
+                </div>
+              </div>
+
+
+              <!-- <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+                <label class="w-50" for="displayScale">Display Scale</label>
+                <input type="text" id="displayScale" class="form-control" placeholder="1" value="2">
+              </div> -->
+
+
+
+              <!-- <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+                <label class="w-50" for="titleSize">Title Size</label>
+                <input type="text" id="titleSize" class="form-control" placeholder="title size e.g 10" value="10">
+              </div> -->
+
+
+
+              <!-- <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+                <label class="w-50" for="timerSize">Timer Size</label>
+                <input type="text" id="timerSize" class="form-control" placeholder="Timer font. e.g 25" value="25">
+              </div> -->
+
+
+            </div>
+          </form>
+        </div>
+        <div class="card-footer m-auto">
+
+          <button class="btn btn-warning btn-raised" onclick="resetTimer()">Reset Timer</button>
+
+          <button class="btn btn-info btn-raised" onclick="startTimer()">Start Timer</button>
+
+          <button class="btn btn-danger btn-raised" onclick="stopTimer()">Stop Timer</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+  <script src="src/control.js"></script>
 </body>
 
 </html>

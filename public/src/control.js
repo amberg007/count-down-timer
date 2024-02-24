@@ -1,6 +1,6 @@
 // control.js
 
-let server = "192.168.70.165:1025";
+let server = "192.168.70.164:1025";
 
 // let ipAddress = "localhost";
 
