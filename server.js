@@ -147,7 +147,7 @@ function updateTimer() {
 
 let timerInterval = setInterval(updateTimer, 1000);
 
-server.listen(3000, async () => {
+server.listen(80, async () => {
 
   // get system information
   //  const si = require('systeminformation');
@@ -155,7 +155,25 @@ server.listen(3000, async () => {
   //   .then(data => console.log(data.displays))
   //   .catch(error => console.error(error));
 
-  console.log(`Server is running on http://${ipAddress}:3000`);
+  console.log(`ugyc timer control is running on http://streamer.local`);
+  console.log(`============= !! important !! ================`);
+  console.log(`============= PLEASE DONT CLOSE WINDOW, JUST MINIMIZE IT ================`);
+  console.log("");
+  console.log("");
+  console.log("");
+  console.log("");
+  console.log("Enter this url in the browser on any device in church that is");
+  console.log("connected to any of the wifi");
+  console.log("");
+  console.log("streamer.local");
+  console.log("");
+  console.log("");
+  console.log("e.g Pastor Salu's mobile phone chrome browser");
+  console.log("");
+  console.log("");
+  console.log("");
+  console.log("");
+  console.log("===========================================================================");
   // const open = (await import('open')).default;
   // open(`http://${ipAddress}:3000/display`);
 });
