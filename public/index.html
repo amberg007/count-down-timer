@@ -96,39 +96,81 @@
 </head>
 
 <body class="bg-dark">
-  <!-- Responsive navbar-->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container px-5">
-      <a class="navbar-brand" href="#!">UGYC Control</a>
-    </div>
-  </nav>
   <!-- Page Content-->
-  <div class="container px-4 px-lg-5 bg-dark">
+  <div class="container p-4 px-lg-5 bg-dark">
+
+    <div class="card-header d-flex flex-row align-items-center justify-content-between w-100 text-white">
+      <img src="/assets/apple-touch-icon.png" class="logo">
+      <p class="m-0">UGYC - Stage Controller</p>
+      <h5 id="timerDisplay">00:00</h5>
+    </div>
+
+
     <!-- Content Row-->
     <div class="row gx-4 gx-lg-5">
-      <div class="col-md-4 mb-5">
+      <div class="col-md-12 mb-5">
         <div class="card h-100 bg-dark">
-          <div class="card-body">
-            <h2 class="card-title">Card One</h2>
-            <p class="card-text text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex
-              numquam,
-              maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+          <div class="card-body text-white">
+
+            <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+              <label class="w-50" for="labelInput">Selected Timer</label>
+              <select id="timerDropdown" class="form-control"></select>
+
+              <div class="d-flex my-5 justify-content-center" style="flex-wrap: wrap;">
+                <button type="button" class="m-1 btn-timer-item btn btn-danger">Left</button>
+                <button type="button" class="m-1 btn-timer-item btn btn-warning">Middle</button>
+                <button type="button" class="m-1 btn-timer-item btn btn-success">Right</button>
+                <button type="button" class="m-1 btn-timer-item btn btn-danger">Left</button>
+                <button type="button" class="m-1 btn-timer-item btn btn-warning">Middle</button>
+                <button type="button" class="m-1 btn-timer-item btn btn-success">Right</button>
+                <button type="button" class="m-1 btn-timer-item btn btn-danger">Left</button>
+                <button type="button" class="m-1 btn-timer-item btn btn-warning">Middle</button>
+                <button type="button" class="m-1 btn-timer-item btn btn-success">Right</button>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row input-group align-items-center justify-content-between mt-3 w-100">
+              <label for="timeInput">Time Input</label>
+              <div class="d-flex">
+                <input type="text" id="timeInput" class="form-control mr-1" placeholder="00:00" value="20:40">
+                <div class="btn btn-success btn-raised" id="updateTimer">Update Timer</div>
+              </div>
+            </div>
+
+
+
+            <div class="d-flex flex-row input-group align-items-start justify-content-between mt-3 w-100">
+              <label for="messageInput" class="mr-2">Messages</label>
+              <div class="d-flex">
+                <textarea id="messageInput" name="messageInput" rows="3" cols="50" class="form-control mr-1"
+                  placeholder="type message here"></textarea>
+                <div class="btn btn-success btn-raised" id="sendMessage">Send Message</div>
+              </div>
+            </div>
+
+
           </div>
-          <div class="card-footer">
-            <button class="btn btn-primary btn-sm" href="#!">More Info</button>
-            <button class="btn btn-secondary btn-sm" href="#!">More Info</button>
-            <button class="btn btn-success btn-sm" href="#!">More Info</button>
-            <button class="btn btn-danger btn-sm" href="#!">More Info</button>
-            <button class="btn btn-warning btn-sm" href="#!">More Info</button>
+          <div class="card-footer d-flex align-items-center justify-content-center">
+
+            <button class="btn btn-warning btn-raised btn-lg m-1" onclick="resetTimer()">Reset Timer</button>
+
+            <button class="btn btn-info btn-raised btn-lg m-1" onclick="startTimer()">Start Timer</button>
+
+            <button class="btn btn-danger btn-raised btn-lg m-1" onclick="stopTimer()">Stop Timer</button>
+
           </div>
         </div>
       </div>
     </div>
   </div>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
   <!-- Bootstrap core JS-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Core theme JS-->
   <script src="js/scripts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+  <script src="src/control.js"></script>
 </body>
 
 </html>
