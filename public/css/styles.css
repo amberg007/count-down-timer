@@ -12662,9 +12662,33 @@ img.logo {
 .btn-timer-item {
   min-width: 100px;
   min-height: 100px;
+  width: 120px;
 }
 
 
+.btn {
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pulse {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
 
 /** button pressed states **/
 .a_demo_two {
