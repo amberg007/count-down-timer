@@ -15,6 +15,8 @@ $(document).ready(function () {
     initializeUpdateTimerBtn();
 
 
+    showExisingMsgs();
+
 
     setTimeout(() => {
         setInterval(fetchCurrentTimer, 1000);
@@ -22,15 +24,12 @@ $(document).ready(function () {
 
 });
 
-const setActiveTimer = () => {
-    let activeTimer = window.localStorage.getItem('activeTimer');
-    if (activeTimer) {
-        let $timerEl = $("#timerDropdown");
-        $timerEl.val(activeTimer);
-        $timerEl.trigger("change");
+const showExisingMsgs = function () {
+    let message = window.localStorage.getItem('msgs');
+    if (message) {
+        $('#messageLabel').text(message);
     }
 }
-
 
 const initializeActivePresenterServer = () => {
     // get all clients in the same local network
@@ -42,9 +41,6 @@ const initializeUpdateTimerBtn = () => {
     // event handler for when "Update Timer" button is clicked on
     document.getElementById('updateTimer').addEventListener('click', function () {
 
-        if (!$('#formTimer').valid()) {
-            return
-        }
         const selectedUuid = document.getElementById('timerDropdown').value;
         const selectElement = document.getElementById("timerDropdown");
         const selectedText = selectElement.options[selectElement.selectedIndex].text;
@@ -84,9 +80,6 @@ function getAllTimers() {
         .then(response => response.json())
         .then(data => {
             populateDropdown(data);
-
-            // set active timer
-            setActiveTimer();
         })
         .catch(error => {
             console.error('Error fetching data:', error);
@@ -104,10 +97,12 @@ function populateDropdown(data) {
         const option = document.createElement('option');
         option.value = item.id.uuid;
         option.textContent = item.id.name;
+        $(option).attr('duration', item.countdown.duration);
         select.appendChild(option);
     });
 
 
+    /** 
     let $buttonContainer = $('#buttonContainer');
     data.forEach(item => {
         let totalSeconds = item.countdown.duration;
@@ -122,8 +117,18 @@ function populateDropdown(data) {
         let button = `<button id="${item.id.uuid}" type="button" onclick="startButtonTimer(this)" class="m-1 btn-timer-item btn btn-success">${item.id.name} <br /> ${formattedTime}</button>`;
         $buttonContainer.append(button);
     });
+    **/
 
 
+}
+
+function sendButtonMessage(msg) {
+
+    window.localStorage.setItem('msgs', msg);
+    $('#messageLabel').text(msg);
+    $("#timeInput").val($("#timerDisplay").text().substring(3));
+
+    sendMessage(msg);
 }
 
 function startButtonTimer(btn) {
@@ -159,7 +164,7 @@ function updateTimer(uuid, duration, selectedText) {
 
 
     // stop active timer
-    stopTimer();
+    resetTimer();
 
 
     fetch(url, {
@@ -173,8 +178,6 @@ function updateTimer(uuid, duration, selectedText) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            window.localStorage.setItem('activeTimer', uuid);
-            window.location.reload();
             return response.json();
         })
         .then(data => {
@@ -247,6 +250,31 @@ function fetchCurrentTimer() {
 
             // Set the value to the input element
             document.getElementById('timerDisplay').textContent = foundObject.time;
+
+            // Process the data as needed
+        })
+        .catch(error => {
+            console.error('Error fetching current timer:', error);
+        });
+}
+
+function fetchCurrentTimerOnce() {
+    const uuid = document.getElementById("timerDropdown").value;
+    fetch(`http://${server}/v1/timers/current?chunked=false`) // Replace with your actual API endpoint
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+
+
+            const jsonData = data;
+            const foundObject = findObjectByUuid(jsonData, uuid);
+
+            // Set the value to the input element
+            $("#timeInput").val($("#timerDisplay").text());
 
             // Process the data as needed
         })

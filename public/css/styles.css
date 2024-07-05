@@ -12653,6 +12653,10 @@ img.logo {
   color: red;
 }
 
+#timeInput {
+  min-width: 52px;
+}
+
 #timeInput-error {
   position: absolute;
   bottom: -21px;
@@ -12675,11 +12679,26 @@ img.logo {
 #sendMessage {
   display: flex;
   align-items: center;
+  border-radius: 5px;
+}
+
+#updateTimer {
+  height: 36px;
+  padding: 0 11px;
+  border-radius: 5px;
+}
+
+#messageInput {
+  min-width: 100px;
+
+  border: none !important;
+  background-color: #0c151f !important;
+  border-bottom: 1px solid #1a232b !important;
 }
 
 .btn-timer-item {
   min-width: 100px;
-  min-height: 100px;
+  /* min-height: 100px; */
   width: 120px;
 }
 
@@ -12710,6 +12729,11 @@ img.logo {
 
 label {
   font-size: 15px;
+}
+
+.bg-gray {
+  background-color: rgb(12 21 31) !important;
+  border-radius: 7px;
 }
 
 /** button pressed states **/
