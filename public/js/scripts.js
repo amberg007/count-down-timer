@@ -122,7 +122,14 @@ function populateDropdown(data) {
 
 }
 
-function sendButtonMessage(msg) {
+function sendButtonMessage(msg, obj) {
+
+    $('.btn-timer-item').removeClass('btn-danger btn-success fw-bold').addClass('btn-success');
+
+    $(obj).addClass('btn-danger fw-bold');
+
+
+    console.log($(obj));
 
     window.localStorage.setItem('msgs', msg);
     $('#messageLabel').text(msg);
