@@ -113,26 +113,24 @@
           <div class="card-body text-white">
 
             <div class="input-group align-items-center justify-content-center mr-5 mt-3">
-              <label class="w-50" for="labelInput">Selected Timer</label>
-              <select id="timerDropdown" class="form-control"></select>
-
-              <div id="buttonContainer" class="d-flex my-5 justify-content-center" style="flex-wrap: wrap;">
-              </div>
-            </div>
-
-            <div class="d-flex flex-column input-group align-items-start justify-content-between mt-3 w-100">
-              <label for="timeInput">Time Input</label>
-              <div class="d-flex w-100">
+              <label class="" for="labelInput">Selected Timer</label>
+              <select class="form-control" id="timerDropdown"></select>
+              <div class="d-flex">
                 <input type="text" id="timeInput" class="form-control mr-1" placeholder="00:00" value="20:40">
                 <div class="btn btn-success btn-raised" id="updateTimer">Update Timer</div>
               </div>
             </div>
 
+            <div id="buttonContainer" class="d-flex my-5 justify-content-center" style="flex-wrap: wrap;">
+            </div>
 
 
-            <div class="d-flex flex-row input-group align-items-start justify-content-between mt-3 w-100">
+
+
+
+            <div class="d-flex flex-row input-group align-items-center justify-content-center mt-3 w-100">
               <label for="messageInput" class="mr-2">Messages</label>
-              <div class="d-flex">
+              <div class="d-flex m-2">
                 <textarea id="messageInput" name="messageInput" rows="3" cols="50" class="form-control mr-1"
                   placeholder="type message here"></textarea>
                 <div class="btn btn-success btn-raised" id="sendMessage">Send Message</div>

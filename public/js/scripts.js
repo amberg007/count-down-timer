@@ -32,6 +32,7 @@ const initializeActivePresenterServer = () => {
 const initializeUpdateTimerBtn = () => {
     // event handler for when "Update Timer" button is clicked on
     document.getElementById('updateTimer').addEventListener('click', function () {
+        debugger;
         const selectedUuid = document.getElementById('timerDropdown').value;
         const selectElement = document.getElementById("timerDropdown");
         const selectedText = selectElement.options[selectElement.selectedIndex].text;
@@ -93,7 +94,6 @@ function populateDropdown(data) {
 
 
     let $buttonContainer = $('#buttonContainer');
-    let colors = ['btn-danger', 'btn-warning', 'btn-success'];
     data.forEach(item => {
         let totalSeconds = item.countdown.duration;
 
@@ -104,10 +104,24 @@ function populateDropdown(data) {
 
         let formattedTime = `${hours}:${minutes}:${seconds}`;
 
-        let button = `<button id="${item.id.uuid}" type="button" class="m-1 btn-timer-item btn btn-success pulse">${item.id.name} <br /> ${formattedTime}</button>`;
+        let button = `<button id="${item.id.uuid}" type="button" onclick="startButtonTimer(this)" class="m-1 btn-timer-item btn btn-success">${item.id.name} <br /> ${formattedTime}</button>`;
         $buttonContainer.append(button);
     });
 
+
+}
+
+function startButtonTimer(btn) {
+    let timerId = $(btn).attr("id");
+
+    let $timerEl = $("#timerDropdown");
+    $timerEl.val(timerId);
+    $timerEl.trigger("change");
+    resetTimer(); // reset all timers
+    // start a new timer
+    setTimeout(() => {
+        startTimer();
+    }, 400);
 
 }
 
@@ -139,17 +153,6 @@ function updateTimer(uuid, duration, selectedText) {
         })
         .then(data => {
             console.log('Timer updated successfully:', data);
-
-            // startTimer();
-
-            // setTimeout(() => {
-            //   resetTimer();
-
-            //   setTimeout(() => {
-            //     startTimer();
-            //   }, 300);
-            // }, 300);
-
         })
         .catch(error => {
             console.error('Error updating timer:', error);
@@ -216,8 +219,6 @@ function fetchCurrentTimer() {
             const jsonData = data;
             const foundObject = findObjectByUuid(jsonData, uuid);
 
-            console.log('Current timer data:', foundObject);
-
             // Set the value to the input element
             document.getElementById('timerDisplay').textContent = foundObject.time;
 
@@ -228,21 +229,6 @@ function fetchCurrentTimer() {
         });
 }
 
-
-
-
-function resetTimer() {
-    timerOperation("reset");
-}
-
-function startTimer() {
-    timerOperation("start");
-}
-
-
-function stopTimer() {
-    timerOperation("stop");
-}
 
 
 
@@ -265,3 +251,35 @@ function timerOperation(action) {
             console.error('Error starting timer:', error);
         });
 }
+
+function resetTimer() {
+    // timerOperation("reset");
+    const url = `http://${server}/v1/timers/reset`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Timer started successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error starting timer:', error);
+        });
+}
+
+function startTimer() {
+    timerOperation("start");
+}
+
+
+function stopTimer() {
+    timerOperation("stop");
+}
+
+
+
+

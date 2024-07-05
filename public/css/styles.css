@@ -12654,6 +12654,14 @@ img.logo {
   ;
 }
 
+#timerDropdown {
+  padding: 22px 10px;
+  border-radius: 7px;
+  margin: 10px;
+  min-width: 9em;
+  max-width: 14em;
+}
+
 #sendMessage {
   display: flex;
   align-items: center;
@@ -12688,6 +12696,10 @@ img.logo {
   100% {
     transform: scale(1);
   }
+}
+
+label {
+  font-size: 15px;
 }
 
 /** button pressed states **/
