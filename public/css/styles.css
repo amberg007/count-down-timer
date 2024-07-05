@@ -12649,6 +12649,16 @@ img.logo {
   margin-right: 10px;
 }
 
+.error {
+  color: red;
+}
+
+#timeInput-error {
+  position: absolute;
+  bottom: -21px;
+  font-size: 12px;
+}
+
 #timerDisplay {
   font-size: 2em;
   ;

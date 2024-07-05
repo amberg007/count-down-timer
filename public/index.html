@@ -92,6 +92,7 @@
   <!-- Favicon-->
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <!-- Core theme CSS (includes Bootstrap)-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.css">
   <link href="css/styles.css" rel="stylesheet" />
 </head>
 
@@ -112,14 +113,17 @@
         <div class="card h-100 bg-dark">
           <div class="card-body text-white">
 
-            <div class="input-group align-items-center justify-content-center mr-5 mt-3">
-              <label class="" for="labelInput">Selected Timer</label>
-              <select class="form-control" id="timerDropdown"></select>
-              <div class="d-flex">
-                <input type="text" id="timeInput" class="form-control mr-1" placeholder="00:00" value="20:40">
-                <div class="btn btn-success btn-raised" id="updateTimer">Update Timer</div>
+            <form id="formTimer">
+              <div class="input-group align-items-center justify-content-center mr-5 mt-3">
+                <label class="" for="labelInput">Selected Timer</label>
+                <select class="form-control" id="timerDropdown"></select>
+                <div class="d-flex">
+                  <input type="text" id="timeInput" name="timeInput" class="form-control mr-1" required
+                    placeholder="00:00">
+                  <button type="submit" class="btn btn-success btn-raised" id="updateTimer">Update Timer</button>
+                </div>
               </div>
-            </div>
+            </form>
 
             <div id="buttonContainer" class="d-flex my-5 justify-content-center" style="flex-wrap: wrap;">
             </div>
@@ -152,7 +156,8 @@
       </div>
     </div>
   </div>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
   <!-- Bootstrap core JS-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

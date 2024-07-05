@@ -22,6 +22,15 @@ $(document).ready(function () {
 
 });
 
+const setActiveTimer = () => {
+    let activeTimer = window.localStorage.getItem('activeTimer');
+    if (activeTimer) {
+        let $timerEl = $("#timerDropdown");
+        $timerEl.val(activeTimer);
+        $timerEl.trigger("change");
+    }
+}
+
 
 const initializeActivePresenterServer = () => {
     // get all clients in the same local network
@@ -32,7 +41,10 @@ const initializeActivePresenterServer = () => {
 const initializeUpdateTimerBtn = () => {
     // event handler for when "Update Timer" button is clicked on
     document.getElementById('updateTimer').addEventListener('click', function () {
-        debugger;
+
+        if (!$('#formTimer').valid()) {
+            return
+        }
         const selectedUuid = document.getElementById('timerDropdown').value;
         const selectElement = document.getElementById("timerDropdown");
         const selectedText = selectElement.options[selectElement.selectedIndex].text;
@@ -72,6 +84,9 @@ function getAllTimers() {
         .then(response => response.json())
         .then(data => {
             populateDropdown(data);
+
+            // set active timer
+            setActiveTimer();
         })
         .catch(error => {
             console.error('Error fetching data:', error);
@@ -116,8 +131,12 @@ function startButtonTimer(btn) {
 
     let $timerEl = $("#timerDropdown");
     $timerEl.val(timerId);
+
+    window.localStorage.setItem('activeTimer', timerId);
     $timerEl.trigger("change");
+
     resetTimer(); // reset all timers
+
     // start a new timer
     setTimeout(() => {
         startTimer();
@@ -138,6 +157,11 @@ function updateTimer(uuid, duration, selectedText) {
         }
     };
 
+
+    // stop active timer
+    stopTimer();
+
+
     fetch(url, {
         method: 'PUT',
         headers: {
@@ -149,6 +173,8 @@ function updateTimer(uuid, duration, selectedText) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
+            window.localStorage.setItem('activeTimer', uuid);
+            window.location.reload();
             return response.json();
         })
         .then(data => {
