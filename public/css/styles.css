@@ -12779,3 +12779,13 @@ label {
 .a_demo_two:active::before {
   top: -2px;
 }
+
+.btn-action-time {
+  border: 1px solid white;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  margin-top: 7px;
+}

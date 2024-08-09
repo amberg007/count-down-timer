@@ -1,7 +1,7 @@
 
 
 // let server = "192.168.70.164:1025";
-let server = "192.168.0.123:1025";
+let server = "192.168.0.132:1025";
 
 // let ipAddress = "localhost";
 
@@ -48,7 +48,8 @@ const initializeUpdateTimerBtn = () => {
         const durationInSeconds = convertTimeToSeconds(timeString);
 
         if (selectedUuid && durationInSeconds !== null) {
-            updateTimer(selectedUuid, durationInSeconds, selectedText);
+            // updateTimer(selectedUuid, durationInSeconds, selectedText);
+            startTimer();
         } else {
             console.error('Invalid input. Please ensure a timer is selected and time is correctly entered.');
         }
@@ -126,16 +127,24 @@ function sendButtonMessage(msg, obj) {
 
     $('.btn-timer-item').removeClass('btn-danger btn-success fw-bold').addClass('btn-success');
 
+    let newTimeString = $(obj).find('span').text();
+
     $(obj).addClass('btn-danger fw-bold');
 
+    // set the timer input with new time string
+    $("#timeInput").val(newTimeString);
 
-    console.log($(obj));
+    // console.log($(obj));
 
     window.localStorage.setItem('msgs', msg);
     $('#messageLabel').text(msg);
-    $("#timeInput").val($("#timerDisplay").text().substring(3));
+    // $("#timeInput").val($("#timerDisplay").text().substring(3));
 
+    // sends the new message to the stage monitor
     sendMessage(msg);
+
+    // updates & starts the timer
+    startTimer();
 }
 
 function startButtonTimer(btn) {
@@ -332,8 +341,73 @@ function resetTimer() {
         });
 }
 
+function startExistingTimer() {
+    // timerOperation("start");
+    const uuid = document.getElementById("timerDropdown").value;
+    const url = `http://${server}/v1/timer/${uuid}/start`;
+
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Timer started successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error starting timer:', error);
+        });
+}
 function startTimer() {
-    timerOperation("start");
+    // timerOperation("start");
+
+    // get the timer to be set
+    const uuid = document.getElementById("timerDropdown").value;
+    const duration = convertTimeToSeconds($("#timeInput").val());
+    const name = $("#messageLabel").text();
+
+    if (duration === null) {
+        alert("Invalid time format. Please use HH:MM format.");
+        return;
+    }
+
+    const url = `http://${server}/v1/timer/${uuid}/start`;
+    const data = {
+        "allows_overrun": true,
+        "countdown": {
+            "duration": duration
+        },
+        "id": {
+            "index": 0,
+            "name": name,
+            "uuid": uuid
+        }
+    };
+    // Configuration for the fetch request
+    const options = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    };
+
+    fetch(url, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Timer started successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error starting timer:', error);
+        });
 }
 
 

@@ -1,85 +1,3 @@
-<!-- 
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>Control</title>
-
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
-  <link rel="manifest" href="assets/site.webmanifest">
-
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-  <div class="container h-100">
-    <div class="d-flex justify-content-center">
-      <div class="card mt-5 col-auto animated bounceInDown myForm" style="zoom: 2;">
-        <div class="card-header d-flex flex-row align-items-center justify-content-between w-100">
-          <img src="/assets/apple-touch-icon.png" class="logo">
-          <h4>UGYC - Stage Controller</h4>
-          <h5 id="timerDisplay">00:00</h5>
-        </div>
-        <div class="card-body pt-0">
-          <form>
-            <div id="dynamic_container">
-
-              <div class="input-group align-items-center justify-content-center mr-5 mt-3">
-                <label class="w-50" for="labelInput">Selected Timer</label>
-                <select id="timerDropdown" class="form-control"></select>
-              </div>
-
-
-
-              <div class="d-flex flex-row input-group align-items-center justify-content-between mt-3 w-100">
-                <label for="timeInput">Time Input</label>
-                <div class="d-flex">
-                  <input type="text" id="timeInput" class="form-control mr-1" placeholder="00:00" value="20:40">
-                  <div class="btn btn-success btn-raised" id="updateTimer">Update Timer</div>
-                </div>
-              </div>
-
-
-
-              <div class="d-flex flex-row input-group align-items-start justify-content-between mt-3 w-100">
-                <label for="messageInput" class="mr-2">Messages</label>
-                <div class="d-flex">
-                  <textarea id="messageInput" name="messageInput" rows="3" cols="50" class="form-control mr-1"
-                    placeholder="type message here"></textarea>
-                  <div class="btn btn-success btn-raised" id="sendMessage">Send Message</div>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="card-footer m-auto">
-
-          <button class="btn btn-warning btn-raised" onclick="resetTimer()">Reset Timer</button>
-
-          <button class="btn btn-info btn-raised" onclick="startTimer()">Start Timer</button>
-
-          <button class="btn btn-danger btn-raised" onclick="stopTimer()">Stop Timer</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
-  <script src="src/control.js"></script>
-</body>
-
-</html>
--->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -125,25 +43,38 @@
 
             <div id="buttonContainer" class="d-flex my-5 justify-content-center" style="flex-wrap: wrap;">
               <button onclick="sendButtonMessage('Opening Prayer', this)"
-                class="m-1 btn-timer-item btn btn-success">Opening
-                Prayer</button>
+                class="m-1 btn-timer-item btn btn-success d-flex flex-column align-items-center justify-content-between">Opening
+                Prayer <br /><span class="btn-action-time">05:00</span></button>
               <button onclick="sendButtonMessage('Praise & Worship', this)"
-                class="m-1 btn-timer-item btn btn-success">Praise
-                &
-                Worship</button>
+                class="m-1 btn-timer-item btn btn-success d-flex flex-column align-items-center justify-content-between">Praise
+                & Worship
+                <br /><span class="btn-action-time">15:00</span></button>
               <button onclick="sendButtonMessage('Testimony', this)"
-                class="m-1 btn-timer-item btn btn-success">Testimony</button>
-              <button onclick="sendButtonMessage('Choir', this)"
-                class="m-1 btn-timer-item btn btn-success">Choir</button>
-              <button onclick="sendButtonMessage('Hymn', this)" class="m-1 btn-timer-item btn btn-success">Hymn</button>
-              <button onclick="sendButtonMessage('Word', this)" class="m-1 btn-timer-item btn btn-success">Word</button>
-              <button onclick="sendButtonMessage('Announcement', this)"
-                class="m-1 btn-timer-item btn btn-success">Announcement</button>
-              <button onclick="sendButtonMessage('Sunday School', this)"
-                class="m-1 btn-timer-item btn btn-success">Sunday
-                School</button>
-              <button onclick="sendButtonMessage('Closing', this)"
-                class="m-1 btn-timer-item btn btn-success">Closing</button>
+                class="m-1 btn-timer-item btn btn-success d-flex flex-column align-items-center justify-content-between">Testimony
+                <br /><span class="btn-action-time">05:00</span></button>
+              <button onclick="sendButtonMessage('Choir Ministration', this)"
+                class="m-1 btn-timer-item btn btn-success d-flex flex-column align-items-center justify-content-between">Choir
+                Ministration
+                <br /><span class="btn-action-time">05:00</span></button>
+              <button onclick="sendButtonMessage('Hymn', this)"
+                class="m-1 btn-timer-item btn btn-success d-flex flex-column align-items-center justify-content-between">Hymn
+                <br /><span class="btn-action-time">05:00</span>
+              </button>
+              <button onclick="sendButtonMessage('Word', this)"
+                class="m-1 btn-timer-item btn btn-success d-flex flex-column align-items-center justify-content-between">Word
+                <br /><span class="btn-action-time">40:00</span>
+              </button>
+              <button onclick="sendButtonMessage('Prayer Rain', this)"
+                class="m-1 btn-timer-item btn btn-success d-flex flex-column align-items-center justify-content-between">Prayer
+                Rain
+                <br /><span class="btn-action-time">05:00</span></button>
+              <button onclick="sendButtonMessage('Offering', this)"
+                class="m-1 btn-timer-item btn btn-success d-flex flex-column align-items-center justify-content-between">Offering
+                <br /><span class="btn-action-time">05:00</span></button>
+              <button onclick="sendButtonMessage('Sunday School Review', this)"
+                class="m-1 btn-timer-item btn btn-success d-flex flex-column align-items-center justify-content-between">Sunday
+                School Review
+                <br /><span class="btn-action-time">05:00</span></button>
             </div>
 
 
@@ -170,9 +101,7 @@
             </div>
 
             <div class="d-flex">
-              <button class="btn btn-warning btn-raised btn-lg m-1" onclick="resetTimer()">Reset Timer</button>
-
-              <button class="btn btn-info btn-raised btn-lg m-1" onclick="startTimer()">Start Timer</button>
+              <button class="btn btn-info btn-raised btn-lg m-1" onclick="startExistingTimer()">Start Timer</button>
 
               <button class="btn btn-danger btn-raised btn-lg m-1" onclick="stopTimer()">Stop Timer</button>
             </div>
