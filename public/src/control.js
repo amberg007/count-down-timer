@@ -72,11 +72,16 @@ function getAllTimers() {
   fetch(`http://${server}/v1/timers?chunked=false`)
     .then(response => response.json())
     .then(data => {
+      saveActiveTimer(data);
       populateDropdown(data);
     })
     .catch(error => {
       console.error('Error fetching data:', error);
     });
+}
+
+function saveActiveTimer(data) {
+  localStorage.setItem("timers", JSON.stringify(data));
 }
 
 

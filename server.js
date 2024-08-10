@@ -147,7 +147,7 @@ function updateTimer() {
 
 let timerInterval = setInterval(updateTimer, 1000);
 
-server.listen(85, async () => {
+server.listen(80, async () => {
 
   // get system information
   //  const si = require('systeminformation');

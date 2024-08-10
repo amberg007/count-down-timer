@@ -1,7 +1,7 @@
 
 
 // let server = "192.168.70.164:1025";
-let server = "192.168.0.132:1025";
+let server = "DESKTOP-LAN4NJ3:1025";
 
 // let ipAddress = "localhost";
 
@@ -81,10 +81,15 @@ function getAllTimers() {
         .then(response => response.json())
         .then(data => {
             populateDropdown(data);
+            saveActiveTimer(data);
         })
         .catch(error => {
             console.error('Error fetching data:', error);
         });
+}
+
+function saveActiveTimer(data) {
+    localStorage.setItem("timers", JSON.stringify(data));
 }
 
 
@@ -219,7 +224,7 @@ function sendMessage(message) {
             if (!response.ok) {
                 throw new Error(`Network response was not ok (${response.status} ${response.statusText})`);
             }
-            return response.json();
+            // return response.json();
         })
         .then(data => {
             console.log('Message sent successfully:', data);
@@ -374,6 +379,8 @@ function startTimer() {
         return;
     }
 
+    let firstTimer =  JSON.parse(localStorage.getItem("timers"))[0];
+
     const url = `http://${server}/v1/timer/${uuid}/start`;
     const data = {
         "allows_overrun": true,
@@ -382,8 +389,8 @@ function startTimer() {
         },
         "id": {
             "index": 0,
-            "name": name,
-            "uuid": uuid
+            "name": firstTimer.id.name,
+            "uuid": firstTimer.id.uuid
         }
     };
     // Configuration for the fetch request
@@ -403,7 +410,25 @@ function startTimer() {
             return response.json();
         })
         .then(data => {
-            console.log('Timer started successfully:', data);
+            console.log('Timer updated successfully:', data);
+
+            let _newUrl = `http://${server}/v1/timer/${uuid}/reset`;
+            fetch(_newUrl, options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Timer reset successfully:', data);
+
+                    _newUrl = `http://${server}/v1/timer/${uuid}/start`;
+                    fetch(_newUrl, options);
+                })
+                .catch(error => {
+                    console.error('Error starting timer:', error);
+                });
         })
         .catch(error => {
             console.error('Error starting timer:', error);
